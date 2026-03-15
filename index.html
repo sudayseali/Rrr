@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Salma | Medical Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #06b6d4;
+            --gold: #d4af37;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .glass-morphism {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(ellipse at top, rgba(6, 182, 212, 0.15), transparent 70%),
+                        radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.1), transparent 70%);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(6, 182, 212, 0.3);
+        }
+        
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 10s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        .timeline-line {
+            background: linear-gradient(to bottom, #06b6d4, #3b82f6, #8b5cf6);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .stat-counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .image-mask {
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-6">
+            <div class="glass-morphism rounded-2xl px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold font-display tracking-tight">
+                    Dr.<span class="gradient-text">Salma</span>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="nav-link text-sm font-medium text-slate-300 hover:text-white transition-colors">About</a>
+                    <a href="#expertise" class="nav-link text-sm font-medium text-slate-300 hover:text-white transition-colors">Expertise</a>
+                    <a href="#experience" class="nav-link text-sm font-medium text-slate-300 hover:text-white transition-colors">Experience</a>
+                    <a href="#contact" class="nav-link text-sm font-medium text-slate-300 hover:text-white transition-colors">Contact</a>
+                </div>
+                
+                <button onclick="scrollToContact()" class="hidden md:flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-6 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/25">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    Book Appointment
+                </button>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full mt-2 px-6">
+            <div class="glass-morphism rounded-2xl p-6 flex flex-col gap-4">
+                <a href="#about" class="text-slate-300 hover:text-white py-2" onclick="toggleMobileMenu()">About</a>
+                <a href="#expertise" class="text-slate-300 hover:text-white py-2" onclick="toggleMobileMenu()">Expertise</a>
+                <a href="#experience" class="text-slate-300 hover:text-white py-2" onclick="toggleMobileMenu()">Experience</a>
+                <a href="#contact" class="text-slate-300 hover:text-white py-2" onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-20">
+        <!-- Animated Background Blobs -->
+        <div class="blob bg-cyan-500 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="blob bg-purple-500 w-80 h-80 rounded-full bottom-0 right-0 translate-x-1/3 translate-y-1/3 animation-delay-2000"></div>
+        <div class="blob bg-blue-500 w-64 h-64 rounded-full top-1/2 right-1/4 animation-delay-4000"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1 space-y-8">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-morphism text-cyan-400 text-sm font-medium reveal">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        Available for Consultations
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-display font-bold leading-tight reveal">
+                        Healing with <br>
+                        <span class="gradient-text">Compassion</span> &<br>
+                        Excellence
+                    </h1>
+                    
+                    <p class="text-lg text-slate-400 max-w-lg leading-relaxed reveal">
+                        Dedicated medical professional committed to providing exceptional healthcare services with a patient-centered approach. Combining modern medicine with empathetic care.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 reveal">
+                        <button onclick="scrollToContact()" class="group bg-white text-slate-900 px-8 py-4 rounded-full font-semibold transition-all hover:bg-cyan-50 flex items-center gap-2">
+                            Get in Touch
+                            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                        <button onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 rounded-full font-semibold border border-slate-700 hover:border-cyan-500/50 hover:bg-cyan-950/30 transition-all">
+                            Learn More
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-8 pt-4 reveal">
+                        <div>
+                            <div class="text-3xl font-bold text-white stat-counter" data-target="8">0</div>
+                            <div class="text-sm text-slate-500">Years Experience</div>
+                        </div>
+                        <div class="w-px h-12 bg-slate-800"></div>
+                        <div>
+                            <div class="text-3xl font-bold text-white stat-counter" data-target="2500">0</div>
+                            <div class="text-sm text-slate-500">Patients Treated</div>
+                        </div>
+                        <div class="w-px h-12 bg-slate-800"></div>
+                        <div>
+                            <div class="text-3xl font-bold text-white stat-counter" data-target="99">0</div>
+                            <div class="text-sm text-slate-500">% Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2 relative reveal">
+                    <div class="relative w-full max-w-md mx-auto">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-[2rem] blur-2xl opacity-30 transform rotate-3"></div>
+                        <div class="relative rounded-[2rem] overflow-hidden border border-slate-700/50 shadow-2xl">
+                            <img src="3.jpg" alt="Dr. Salma" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6">
+                                <div class="glass-morphism rounded-xl p-4 flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+                                        <i data-lucide="verified" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-white">Verified Doctor</div>
+                                        <div class="text-sm text-slate-400">License #MD-2024-8842</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute -right-4 top-1/4 glass-morphism rounded-2xl p-4 shadow-xl animate-bounce" style="animation-duration: 3s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                                    <i data-lucide="heart-pulse" class="w-5 h-5 text-green-400"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-400">Specialization</div>
+                                    <div class="font-semibold text-sm">General Medicine</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-slate-500"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4 mt-8">
+                            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                                <i data-lucide="graduation-cap" class="w-8 h-8 text-cyan-400 mb-3"></i>
+                                <h3 class="font-semibold mb-1">Education</h3>
+                                <p class="text-sm text-slate-400">MBBS from prestigious medical university with honors</p>
+                            </div>
+                            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                                <i data-lucide="award" class="w-8 h-8 text-purple-400 mb-3"></i>
+                                <h3 class="font-semibold mb-1">Certifications</h3>
+                                <p class="text-sm text-slate-400">Board certified with continuous medical education</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                                <i data-lucide="globe" class="w-8 h-8 text-blue-400 mb-3"></i>
+                                <h3 class="font-semibold mb-1">Languages</h3>
+                                <p class="text-sm text-slate-400">English, Arabic, Somali</p>
+                            </div>
+                            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                                <i data-lucide="users" class="w-8 h-8 text-pink-400 mb-3"></i>
+                                <h3 class="font-semibold mb-1">Community</h3>
+                                <p class="text-sm text-slate-400">Active health educator and advocate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6 reveal">
+                    <h2 class="text-4xl md:text-5xl font-display font-bold">
+                        About <span class="gradient-text">Dr. Salma</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg leading-relaxed">
+                        With a passion for healing and a commitment to excellence, Dr. Salma has dedicated her career to providing comprehensive medical care. Her approach combines clinical expertise with genuine compassion, ensuring every patient receives personalized attention.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        Believing that healthcare extends beyond treatment, she focuses on preventive care and patient education. Her multicultural background and linguistic abilities allow her to connect deeply with diverse communities, breaking down barriers in healthcare access.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-3 pt-4">
+                        <span class="px-4 py-2 rounded-full glass-morphism text-sm text-cyan-400 border border-cyan-500/20">Patient-Centered Care</span>
+                        <span class="px-4 py-2 rounded-full glass-morphism text-sm text-purple-400 border border-purple-500/20">Preventive Medicine</span>
+                        <span class="px-4 py-2 rounded-full glass-morphism text-sm text-blue-400 border border-blue-500/20">Women's Health</span>
+                        <span class="px-4 py-2 rounded-full glass-morphism text-sm text-pink-400 border border-pink-500/20">Chronic Disease Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section id="expertise" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-slate-900"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">
+                    Areas of <span class="gradient-text">Expertise</span>
+                </h2>
+                <p class="text-slate-400 text-lg">
+                    Comprehensive medical services tailored to meet your health needs with the highest standards of care.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-cyan-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="stethoscope" class="w-7 h-7 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">General Consultation</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Comprehensive health assessments, diagnosis, and treatment plans for acute and chronic conditions.</p>
+                </div>
+                
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-purple-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="heart" class="w-7 h-7 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Preventive Care</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Health screenings, vaccinations, and lifestyle counseling to prevent illness and promote wellness.</p>
+                </div>
+                
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-blue-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="baby" class="w-7 h-7 text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Pediatric Care</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Specialized healthcare for infants, children, and adolescents, focusing on growth and development.</p>
+                </div>
+                
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-pink-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="female" class="w-7 h-7 text-pink-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Women's Health</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Comprehensive care including reproductive health, prenatal care, and hormonal balance management.</p>
+                </div>
+                
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-green-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="activity" class="w-7 h-7 text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Chronic Management</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Ongoing care and monitoring for diabetes, hypertension, and other chronic conditions.</p>
+                </div>
+                
+                <div class="group glass-morphism rounded-2xl p-8 card-hover border border-slate-800 hover:border-yellow-500/30 reveal">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="microscope" class="w-7 h-7 text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Diagnostics</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Interpretation of lab results and imaging studies with accurate diagnostic assessments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">
+                    Professional <span class="gradient-text">Journey</span>
+                </h2>
+                <p class="text-slate-400 text-lg">
+                    A dedicated path of continuous learning and service in the medical field.
+                </p>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto">
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 timeline-line rounded-full"></div>
+                
+                <div class="space-y-12">
+                    <div class="relative flex items-center justify-between reveal">
+                        <div class="w-5/12 text-right pr-8">
+                            <div class="glass-morphism rounded-2xl p-6 inline-block text-left">
+                                <span class="text-cyan-400 text-sm font-semibold">2022 - Present</span>
+                                <h3 class="text-xl font-bold mt-2 mb-2">Senior Medical Officer</h3>
+                                <p class="text-slate-400 text-sm">Leading patient care initiatives and mentoring junior staff at a premier healthcare facility.</p>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-cyan-500 rounded-full border-4 border-slate-900 z-10"></div>
+                        <div class="w-5/12 pl-8"></div>
+                    </div>
+                    
+                    <div class="relative flex items-center justify-between reveal">
+                        <div class="w-5/12 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-slate-900 z-10"></div>
+                        <div class="w-5/12 text-left pl-8">
+                            <div class="glass-morphism rounded-2xl p-6 inline-block">
+                                <span class="text-purple-400 text-sm font-semibold">2019 - 2022</span>
+                                <h3 class="text-xl font-bold mt-2 mb-2">Medical Officer</h3>
+                                <p class="text-slate-400 text-sm">Provided comprehensive medical care across multiple departments, specializing in internal medicine.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative flex items-center justify-between reveal">
+                        <div class="w-5/12 text-right pr-8">
+                            <div class="glass-morphism rounded-2xl p-6 inline-block text-left">
+                                <span class="text-blue-400 text-sm font-semibold">2018 - 2019</span>
+                                <h3 class="text-xl font-bold mt-2 mb-2">Internship</h3>
+                                <p class="text-slate-400 text-sm">Rotational internship across major medical specialties, gaining diverse clinical experience.</p>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-slate-900 z-10"></div>
+                        <div class="w-5/12 pl-8"></div>
+                    </div>
+                    
+                    <div class="relative flex items-center justify-between reveal">
+                        <div class="w-5/12 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-pink-500 rounded-full border-4 border-slate-900 z-10"></div>
+                        <div class="w-5/12 text-left pl-8">
+                            <div class="glass-morphism rounded-2xl p-6 inline-block">
+                                <span class="text-pink-400 text-sm font-semibold">2012 - 2018</span>
+                                <h3 class="text-xl font-bold mt-2 mb-2">Medical School</h3>
+                                <p class="text-slate-400 text-sm">Completed Bachelor of Medicine and Bachelor of Surgery (MBBS) with distinction.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-cyan-950/30 to-transparent"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-morphism rounded-3xl p-8 md:p-12 border border-slate-700/50 reveal">
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <div>
+                            <h2 class="text-4xl font-display font-bold mb-6">
+                                Let's Connect
+                            </h2>
+                            <p class="text-slate-400 mb-8 leading-relaxed">
+                                Whether you need medical consultation, have health questions, or want to collaborate, I'm here to help. Reach out through any of these channels.
+                            </p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-4 group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                                        <i data-lucide="mail" class="w-6 h-6 text-cyan-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-slate-500">Email</div>
+                                        <div class="font-medium">dr.salma@medical.com</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4 group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                                        <i data-lucide="phone" class="w-6 h-6 text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-slate-500">Phone</div>
+                                        <div class="font-medium">+252 61 234 5678</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4 group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+                                        <i data-lucide="map-pin" class="w-6 h-6 text-pink-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-slate-500">Location</div>
+                                        <div class="font-medium">Mogadishu, Somalia</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4 group cursor-pointer">
+                                    <div class="w-12 h-12 rounded-xl bg-black flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <i data-lucide="music" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-slate-500">TikTok</div>
+                                        <div class="font-medium">@salmasuubanbintua</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <form id="contact-form" class="space-y-4" onsubmit="handleSubmit(event)">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-slate-300">Full Name</label>
+                                    <input type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all text-white placeholder-slate-500" placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-slate-300">Email Address</label>
+                                    <input type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all text-white placeholder-slate-500" placeholder="john@example.com">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2 text-slate-300">Message</label>
+                                    <textarea rows="4" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all text-white placeholder-slate-500 resize-none" placeholder="How can I help you today?"></textarea>
+                                </div>
+                                <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-4 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2">
+                                    <span>Send Message</span>
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slate-800/50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-2xl font-bold font-display">
+                    Dr.<span class="gradient-text">Salma</span>
+                </div>
+                <div class="text-slate-500 text-sm">
+                    © 2026 Dr. Salma. All rights reserved.
+                </div>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full glass-morphism flex items-center justify-center hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full glass-morphism flex items-center justify-center hover:bg-pink-500/20 hover:text-pink-400 transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full glass-morphism flex items-center justify-center hover:bg-blue-500/20 hover:text-blue-400 transition-all">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 right-8 transform translate-y-24 opacity-0 transition-all duration-300 z-50">
+        <div class="glass-morphism rounded-xl px-6 py-4 flex items-center gap-3 border border-green-500/30 shadow-lg shadow-green-500/20">
+            <i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i>
+            <div>
+                <div class="font-semibold text-white">Message Sent!</div>
+                <div class="text-sm text-slate-400">I'll get back to you soon.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Reveal animations
+        gsap.utils.toArray('.reveal').forEach((element, i) => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-counter');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            gsap.to(counter, {
+                innerHTML: target,
+                duration: 2,
+                snap: { innerHTML: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: 'top 85%'
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        let lastScroll = 0;
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth scroll to contact
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form submission
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Sending...';
+            lucide.createIcons();
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                lucide.createIcons();
+                btn.disabled = false;
+                document.getElementById('contact-form').reset();
+                
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                
+                setTimeout(() => {
+                    toast.classList.add('translate-y-24', 'opacity-0');
+                }, 3000);
+            }, 1500);
+        }
+
+        // Parallax effect for hero blobs
+        document.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.blob');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            blobs.forEach((blob, index) => {
+                const speed = (index + 1) * 20;
+                const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
+                const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
+                blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
